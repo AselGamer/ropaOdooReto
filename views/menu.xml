@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_open_ropa" model="ir.actions.act_window">
+        <field name="name">Ropa</field>
+        <field name="res_model">ropa</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+
+    <menuitem id="menu_principal" name="Ropa"/>
+    <menuitem id="menu_horizontal" name="Mis modelos" parent="menu_principal"/>
+    <menuitem id="menu_vertical_ropa" name="Ropa" parent="menu_horizontal" action="action_open_ropa"/>
+</odoo>
