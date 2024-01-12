@@ -2,3 +2,4 @@
 
 from . import ropa
 from . import marcas
+from . import compra

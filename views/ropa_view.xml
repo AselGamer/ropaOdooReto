@@ -16,11 +16,12 @@
                             <group string="Datos Principales">
                                 <field name="descripcion"/>
                                 <field name="precio"/>
+                                <field name="currency_id"/>
                                 <field name="stock"/>
                                 <field name="talla"/>
                             </group>
                             <group string="Imagen del articulo">
-                                <field name="imagen"/>
+                                <field name="image"/>
                                 <field name="vista_imagen" widget="image" options='{"size":[128,128]}'/>
                             </group>
                         </group>
@@ -39,16 +40,25 @@
         <field name="model">ropa</field>
         <field name="arch" type="xml">
             <kanban>
+                <field name="id"/>
+                <field name="currency_id"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <div class="oe_kanban_image">
-                                <field name="imagen" widget="image" options='{"size":[128,128]}'/>
+                                <field name="vista_imagen" widget="image" options='{"size":[64,64]}'/>
+                                <!--<img t-att-src="kanban_image('ropa', 'image_128', record.id.raw_value)" class="o_image_64_contain"/>-->
                             </div>
                             <div class="oe_kanban_details">
-                                <h1>
+                                <strong>
                                     <field name="name"/>
-                                </h1>
+                                </strong>
+                                <div>
+                                    <field name="descripcion"/>
+                                </div>
+                                <div>
+                                    <field name="precio" widget="monetary" options="{'currency_field': 'currency_id', 'field:digits':True}"/>
+                                </div>
                             </div>
                         </div>
                     </t>

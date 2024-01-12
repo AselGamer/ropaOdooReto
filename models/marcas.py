@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api
 
+
 class Marcas(models.Model):
     _name = 'ropa.marcas'
 

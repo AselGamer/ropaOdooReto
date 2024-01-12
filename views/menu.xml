@@ -6,8 +6,15 @@
         <field name="view_mode">tree,form,kanban</field>
     </record>
 
+    <record id="action_open_compra" model="ir.actions.act_window">
+        <field name="name">Compra</field>
+        <field name="res_model">compra</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
 
     <menuitem id="menu_principal" name="Ropa"/>
     <menuitem id="menu_horizontal" name="Mis modelos" parent="menu_principal"/>
     <menuitem id="menu_vertical_ropa" name="Ropa" parent="menu_horizontal" action="action_open_ropa"/>
+    <menuitem id="menu_vertical_compra" name="Compras" parent="menu_horizontal" action="action_open_compra"/>
 </odoo>
