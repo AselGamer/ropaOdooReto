@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 from odoo import fields, models, api
 from odoo.exceptions import UserError
+import logging
+logger = logging.getLogger(__name__)
 
 
 class Compra(models.Model):
@@ -49,7 +51,6 @@ class DetalleCompra(models.Model):
     descripcion = fields.Text(string='Descripcion', related='ropa_id.descripcion', readonly=True)
     cantidad = fields.Integer(string='Cantidad', default=1, attrs={'min': 0})
     precio = fields.Float(string='Precio', related='ropa_id.precio', readonly=True)
-    #precio = fields.Float(string='Precio')
     importe = fields.Monetary(string='Importe')
 
     currency_id = fields.Many2one(comodel_name='res.currency', string='Moneda', related='ropa_id.currency_id')
@@ -63,8 +64,16 @@ class DetalleCompra(models.Model):
 
     @api.model
     def create(self, variables):
-        if not variables['ropa_id']:
+        ropa = self.env['ropa'].browse(variables['ropa_id'])
+
+        if not ropa:
             raise UserError('No se puede crear una linea de compra sin ropa')
+
         if variables['cantidad'] <= 0:
             raise UserError('No se puede crear una linea de compra sin cantidad')
+
+        if variables['cantidad'] > ropa.stock:
+            raise UserError('No se puede crear una linea de compra con una cantidad mayor al stock')
+
+        ropa.stock -= variables['cantidad']
         return super(DetalleCompra, self).create(variables)
