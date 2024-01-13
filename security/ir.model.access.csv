@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+acceso_compra_usuario,acceso compra usuario,model_compra,group_ropa_compra_usuario,1,0,0,0
+acceso_compra_detalle_usuario,acceso compra detalle usuario,model_compra_detalle,group_ropa_compra_usuario,1,0,0,0
+acceso_ropa_usuario,acceso ropa usuario,model_ropa,group_ropa_compra_usuario,1,0,0,0
+
+acceso_compra_administrador,acceso compra administrador,model_compra,group_ropa_compra_administrador,1,1,1,1
+acceso_compra_detalle_administrador,acceso compra detalle administrador,model_compra_detalle,group_ropa_compra_administrador,1,1,1,1
+acceso_ropa_administrador,acceso ropa administrador,model_ropa,group_ropa_compra_administrador,1,1,1,1

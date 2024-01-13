@@ -16,6 +16,8 @@
                         <field name="state" invisible="1"/>
                         <field name="fecha_compra" attrs="{'readonly':[('state', '!=', 'borrador')]}"/>
                         <field name="currency_id"/>
+                        <field name="comprador_id" domain="[('category_id', 'in', [categoria_comprador_id])]" options="{'no_create': True, 'no_open': True}" attrs="{'readonly':[('state', '!=', 'borrador')]}"/>
+                        <field name="categoria_comprador_id" invisible="1"/>
                     </group>
                     <field name="detalle_ids">
                             <tree editable="bottom">

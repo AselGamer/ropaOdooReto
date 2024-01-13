@@ -66,4 +66,19 @@
             </kanban>
         </field>
     </record>
+
+    <record id="ropa_view_tree" model="ir.ui.view">
+        <field name="name">Vista Lista</field>
+        <field name="model">ropa</field>
+        <field name="arch" type="xml">
+            <tree string="Ropa">
+                <field name="name"/>
+                <field name="descripcion"/>
+                <field name="precio"/>
+                <field name="currency_id"/>
+                <field name="stock"/>
+                <field name="talla"/>
+            </tree>
+        </field>
+    </record>
 </odoo>

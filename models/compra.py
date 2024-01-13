@@ -13,6 +13,11 @@ class Compra(models.Model):
     name = fields.Char(string='Nombre', related='numero_compra', readonly=True)
     fecha_compra = fields.Date(string='Fecha compra', copy=False, default=fields.Date.today())
     currency_id = fields.Many2one(comodel_name='res.currency', string='Moneda', default=lambda self: self.env.company.currency_id.id)
+    comprador_id = fields.Many2one(comodel_name='res.partner', string='Comprador')
+    categoria_comprador_id = fields.Many2one(
+        comodel_name='res.partner.category',
+        string='Categoria comprador',
+        default=lambda self: self.env['res.partner.category'].search([('name', '=', 'Comprador')]))
     base = fields.Monetary(String='Base Indisponible')
     impuestos = fields.Monetary(String='Impuestos', compute='_compute_total')
     total = fields.Monetary(string='Total', compute='_compute_total')
@@ -21,6 +26,7 @@ class Compra(models.Model):
         selection=[('borrador', 'Borrador'), ('realizada', 'Realizada')],
         default='borrador', string='Estado', copy=False
     )
+    arr_ropa = []
 
     @api.model
     def create(self, variables):
@@ -61,6 +67,15 @@ class DetalleCompra(models.Model):
             if record.cantidad > record.ropa_id.stock or record.cantidad < 0:
                 record.cantidad = 0
             record.importe = record.cantidad * record.precio
+    @api.onchange('ropa_id')
+    def _onchange_ropa_id(self):
+        for record in self:
+            if record.ropa_id:
+                if record.ropa_id.stock <= 0:
+                    raise UserError('No se puede comprar una ropa sin stock')
+                if record.ropa_id.id in record.compra_id.arr_ropa:
+                    raise UserError('No se puede comprar dos veces la misma ropa')
+                record.compra_id.arr_ropa.append(record.ropa_id.id)
 
     @api.model
     def create(self, variables):
