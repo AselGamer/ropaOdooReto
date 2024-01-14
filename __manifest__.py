@@ -12,6 +12,7 @@
         'data/categoria.xml',
         'views/menu.xml',
         'wizard/update_wizard_view.xml',
+        'report/reporte_compra.xml',
         'data/numero_compra.xml',
         'views/ropa_view.xml',
         'views/compra_view.xml',

@@ -8,6 +8,7 @@ logger = logging.getLogger(__name__)
 
 class Compra(models.Model):
     _name = 'compra'
+    _inherit = ['image.mixin']
 
     numero_compra = fields.Char(string='Numero compra', copy=False)
     name = fields.Char(string='Nombre', related='numero_compra', readonly=True)

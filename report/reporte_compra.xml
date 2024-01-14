@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="action_report_compra_ropa" model="ir.actions.report">
+        <field name="name">Reporte de Compra</field>
+        <field name="model">compra</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">ropaOdooReto.reporte_compra</field>
+        <field name="report_file">ropaOdooReto.reporte_compra</field>
+        <field name="print_report_name">('Compra - %s'%(object.numero_compra))</field>
+        <field name="binding_model_id" ref="model_compra"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="reporte_compra">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <center>
+                            <div class="alert alert-primary" role="alert">
+                                <h1 t-field="o.numero_compra"/>
+                            </div>
+                        </center>
+                        <div class="row">
+                            <div class="col-3">
+                                <img t-attf-src="data:image/png;base64, {{o.image_1920}}" style="max-width:200px;"/>
+                            </div>
+                            <div class="col-9">
+                                <ul class="list-inline" style="font-size:20px;">
+                                    <li t-if="o.fecha_compra">Fecha de Compra: <span t-field="o.fecha_compra"/></li>
+                                    <li t-if="o.comprador_id">Comprador: <span t-field="o.comprador_id"/></li>
+                                    <li t-if="o.create_uid">Creador de la factura: <span t-field="o.create_uid"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <table class="table table-sm" style="margin-top:30px;">
+                            <thead>
+                                <th>Imagen</th>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                                <th>Importe</th>
+                            </thead>
+                            <tbody>
+                                <t t-set="ctd_lineas" t-value="0"/>
+                                <tr t-foreach="o.detalle_ids" t-as="l">
+                                    <td>
+                                        <img t-attf-src="data:image/png;base64, {{l.ropa_id.image}}" style="max-width:200px;"/>
+                                    </td>
+                                    <td><span t-field="l.name"/></td>
+                                    <td><span t-field="l.cantidad"/></td>
+                                    <td><span t-field="l.precio"/></td>
+                                    <td><span t-field="l.importe"/></td>
+                                    <t t-set="ctd_lineas" t-value="ctd_lineas+1"/>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="row justify-content-end" style="padding-top:30px;">
+                            <div class="col-3">
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td>Subtotal:</td>
+                                            <td class="text-right"><span t-field="o.base"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>IVA:</td>
+                                            <td class="text-right"><span t-field="o.impuestos"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total:</td>
+                                            <td class="text-right"><span t-field="o.total"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-top:30px;">
+                            <span>El presente presupuesto cuenta con <t t-esc="ctd_lineas"/> líneas de detalle</span>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
